@@ -12,7 +12,9 @@ export const Range = ({
   from,
   to,
   renderExpansionRow,
-  renderItem
+  renderItem,
+  isSelected,
+  onSelect
 }) => {
   let output = []
   let expansion
@@ -24,7 +26,9 @@ export const Range = ({
     let isExpanded = !!expandedItems[item.id]
 
     output.push(renderItem(item, from + i, {
-      isExpanded
+      isExpanded,
+      isSelected: isSelected(item),
+      onSelect
     }))
 
   // Invariant: in Grid there must be at most one expanded item!
@@ -50,13 +54,16 @@ Range.propTypes = {
   columns: number.isRequired,
   expandedItems: object.isRequired,
   from: number.isRequired,
+  isSelected: func.isRequired,
   items: array.isRequired,
-  to: number.isRequired,
+  onSelect: func.isRequired,
   renderExpansionRow: func,
-  renderItem: func.isRequired
+  renderItem: func.isRequired,
+  to: number.isRequired
 }
 
 Range.defaultProps = {
   columns: 1,
+  isSelected: () => {},
   expandedItems: {}
 }
